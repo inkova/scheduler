@@ -47,5 +47,16 @@ public:
 		}   
 		virtual void print() const =0;
 		virtual ~Task() {}
+		bool operator <(const Task &t) const {
+			return time < t.time;
+        }
+
+		bool operator >(const Task &t) const {
+			return time > t.time;
+        }
+
+		bool operator ==(const Task &t) const {
+			return time == t.time;
+		}
 };
 #endif
