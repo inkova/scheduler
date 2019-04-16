@@ -11,7 +11,7 @@ class Task {
 		int time; //!< временную метку крайнего срока исполнения задания (целое число, описывающее число секунд от некоторого фиксированного в рамках приложения момента в прошлом)
 		
 public:
-		Task(std::string name, std::string data, int imp, int time)  //!< создание задания
+		Task(const std::string& name, const std::string& data, int imp, int time)  //!< создание задания
 			: name(name), data(data), importance(imp), time(time) {}
 		
 		int get_imp() const {        // выдача важности
@@ -46,6 +46,7 @@ public:
 			else { return false; }
 		}   
 		virtual void print() const =0;
+		virtual Task* clone() const = 0;
 		virtual ~Task() {}
 		bool operator <(const Task &t) const {
 			return time < t.time;

@@ -3,6 +3,9 @@
 #include "task_once.h" 
 #include "task.h"
 #include "task_period.h"
+#include "scheduler_tree.h"
+
+using std::string;
 
 void test_task_once() {
 	Task_once t1("do", "done", 1, 2);  // создала задание
@@ -80,10 +83,46 @@ void test_task_period() {
 
 }
 
+void test_tree() {
+	Scheduler  sch = Scheduler();
+	Task_period * tp1 = new Task_period("do_period1", "done_period1", 1, 2, 3);
+	Task_once *to1= new Task_once("do1", "done1", 3, 1);
+	Task_period * tp2 = new Task_period("do_period2", "done_period2", 4, 5, 6);
+	Task_once *to2 = new Task_once("do2", "done2", 4, 4);
+	Task_once *to3 = new Task_once("do3", "done3", 4, 10);
+
+	Task *task[5] = { tp1, tp2, to1, to2, to3 };
+	
+	for (int i = 0; i < 5; i++) {
+	  sch.add(task[i]);
+	 
+	  printf("\nTree: \n");
+	  sch.show();
+	//  printf("---\n");
+	//  sch.print();
+	  printf("\n");
+	} 
+	Task * result_of_search =nullptr;
+	sch.search("do_period2", result_of_search);
+	if (result_of_search != nullptr) result_of_search->print();
+	else printf("Task with this name not found\n");
+	sch.delete_one_task("do_period2");
+	printf("\nAfter delete:\n");
+	sch.show();
+	printf("\nAfter search:\n");
+	sch.search("do_period2", result_of_search);
+	if (result_of_search != nullptr) result_of_search->print();
+	else printf("Task with this name not found\n");
+	sch.delete_all_tree();
+	sch.show();
+	
+}
+
 
 int main() {
 	test_task_once();
 	test_task_period();
+	test_tree();
 	return 0;
 }
 
