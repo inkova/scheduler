@@ -2,6 +2,8 @@
 #include <iostream>
 #include "scheduler_tree.h"
 #include "task.h"
+#include "task_period.h"
+#include "task_once.h"
 
 using std::string;
 using std::endl;
@@ -161,7 +163,7 @@ void Scheduler::delete_one_task(string name_task) {
 
 	search_to_delete(scheduler_top, name_task, task_to_delete);
 	if (task_to_delete == nullptr) {
-		cout << "\nTask with name" << name_task << "not found." << endl;
+		cout << "\nTask with name " << name_task << " not found." << endl;
 		return;
 	}
 	delete_one_node(task_to_delete);
@@ -250,5 +252,29 @@ void  Scheduler::delete_one_node(Node *& task_to_delete){
 		task_to_delete->task = tmp->task->clone();
 		delete_one_node (tmp);
 	}
+	return;
+}
+
+void Scheduler::perform(string name_task) {
+	Task * result_of_search = nullptr;
+	Task_period *tmp = nullptr;
+	
+	search(name_task, result_of_search);
+	if (result_of_search != nullptr) {
+		printf("\nCompleted task:\n");
+		result_of_search->print();
+	}
+	else {
+		cout << "\nTask with name " << name_task << " not found." << endl;
+		return;
+	}
+
+	if (result_of_search->get_periodic()) {
+		tmp = (Task_period *)result_of_search->clone();
+		tmp->miss();
+		delete_one_task(name_task);
+		add(tmp);
+	}
+	else { delete_one_task(name_task); }
 	return;
 }

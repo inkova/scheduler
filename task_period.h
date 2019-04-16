@@ -5,7 +5,7 @@
 
 class Task_period : public Task {
 	int period;
-
+	bool is_task_periodic=true;
 public :
 	Task_period (const std::string& name, const std::string& data, int imp, int time, int period)  // создание задания
 		:Task(name, data, imp, time), period(period) {}
@@ -21,6 +21,9 @@ public :
 		if(extension(period))  
 			return true;
 	    else { return false; }
+	}
+	bool get_periodic() const {
+		return is_task_periodic;
 	}
 };
 #endif

@@ -106,16 +106,26 @@ void test_tree() {
 	sch.search("do_period2", result_of_search);
 	if (result_of_search != nullptr) result_of_search->print();
 	else printf("Task with this name not found\n");
-	sch.delete_one_task("do_period2");
+	
+	sch.delete_one_task("do_period1");
 	printf("\nAfter delete:\n");
 	sch.show();
+	
+	sch.search("do_period1", result_of_search);
 	printf("\nAfter search:\n");
-	sch.search("do_period2", result_of_search);
 	if (result_of_search != nullptr) result_of_search->print();
 	else printf("Task with this name not found\n");
-	sch.delete_all_tree();
+	
+	sch.perform("do_period2");
+	printf("\nAfter perform:\n");
 	sch.show();
 	
+	sch.perform("do2");
+	printf("\nAfter perform:\n");
+	sch.show();
+
+	sch.delete_all_tree();
+	sch.show();
 }
 
 

@@ -56,6 +56,10 @@ public:
 		delete_all_tree(scheduler_top);
 	};
 	void delete_one_task(string name_task);
-
+	void perform(string name_task);
+	
+	~Scheduler() {
+		delete_all_tree();
+	}
 };
 #endif
