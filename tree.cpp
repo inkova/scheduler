@@ -287,3 +287,21 @@ void Scheduler::perform(string name_task) {
 	else { delete_one_task(name_task); }
 	return;
 }
+
+void Scheduler::print_first() {
+	Node* scheduler_top = this->scheduler_top;
+
+	if (scheduler_top == nullptr) {
+		printf("\nThere are no tasks in the scheduler.\n");
+		return;
+	}
+	else 
+	{
+		while (scheduler_top->left != nullptr && scheduler_top->is_left_thread == false) { // переходим в самый левый лист
+			scheduler_top = scheduler_top->left;
+		}
+
+		scheduler_top->task->print();
+	}
+	return;
+}
