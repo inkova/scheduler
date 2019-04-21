@@ -28,7 +28,6 @@ private:
 	Node * scheduler_top = nullptr;
 
 	void add(Node*& scheduler_top, Task* task);
-	//void show(Node* scheduler_top);
 	void print(Node* scheduler_top);
 	void search(Node* scheduler_top, string name_task, Task *& result_of_search);
 	void search_to_delete(Node* scheduler_top, string name_task, Node *& result_of_search);
@@ -40,9 +39,7 @@ public:
 		add(scheduler_top, task);
 	};
 	void show();
-//	{
-//		show(scheduler_top);
-//	};
+
 	void print() {
 		print(scheduler_top);
 	};
@@ -57,7 +54,8 @@ public:
 	};
 	void delete_one_task(string name_task);
 	void perform(string name_task);
-	
+	void print_first();
+
 	~Scheduler() {
 		delete_all_tree();
 	}

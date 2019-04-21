@@ -124,6 +124,9 @@ void test_tree() {
 	printf("\nAfter perform:\n");
 	sch.show();
 
+	printf("\nPrint first:\n");
+	sch.print_first();
+
 	sch.delete_all_tree();
 	sch.show();
 }
