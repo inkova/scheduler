@@ -202,22 +202,31 @@ void  Scheduler::delete_one_node(Node *& task_to_delete){
 		}
 	}
 	else if (task_to_delete->left != nullptr && !(task_to_delete->is_left_thread) && task_to_delete->is_right_thread) { // слева есть поддерево, справа только прошивка
-		if (task_to_delete->left->is_right_thread) {
-			task_to_delete->left->right = task_to_delete->right;
-		}
+		 tmp = task_to_delete->left;
+		 while (tmp->is_right_thread == false) { // переходим в самый левый лист
+			 tmp = tmp->right;
+		 }
+		 if (tmp->right == task_to_delete) {
+			 tmp->right = task_to_delete->right;
+		 }
 		task_to_delete->right->left = task_to_delete->left;
 		delete task_to_delete;
 	}
 	else if (task_to_delete->right != nullptr && !(task_to_delete->is_right_thread) && task_to_delete->is_left_thread) { // справа есть поддерево, слева только прошивка
-		if (task_to_delete->right->is_left_thread) {
-			task_to_delete->right->left = task_to_delete->left;
-		}
+		 tmp = task_to_delete->right;
+		 while (tmp->is_left_thread == false) { // переходим в самый левый лист
+			 tmp = tmp->left;
+		 }
+		 if (tmp->left==task_to_delete) {
+			tmp->left = task_to_delete->left;
+		 }
 		task_to_delete->left->right = task_to_delete->right;
 		delete task_to_delete;
 	}
 
 	else if (task_to_delete->left != nullptr && !(task_to_delete->is_left_thread) && task_to_delete->right == nullptr) { // слево поддерево, справо нулевой
-		if (task_to_delete->left->is_right_thread) {
+		
+		 if (task_to_delete->left->is_right_thread) {
 			task_to_delete->left->right = nullptr;
 			task_to_delete->left->is_right_thread = false;
 		}
