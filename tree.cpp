@@ -265,8 +265,8 @@ void  Scheduler::delete_one_node(Node *& task_to_delete){
 }
 
 void Scheduler::perform(string name_task) {
-	Task * result_of_search = nullptr;
-	Task_period *tmp = nullptr;
+	Task * result_of_search = nullptr, *tmp = nullptr;
+	bool check=false;
 	
 	search(name_task, result_of_search);
 	if (result_of_search != nullptr) {
@@ -278,13 +278,11 @@ void Scheduler::perform(string name_task) {
 		return;
 	}
 
-	if (result_of_search->get_periodic()) {
-		tmp = (Task_period *)result_of_search->clone();
-		tmp->miss();
-		delete_one_task(name_task);
-		add(tmp);
-	}
-	else { delete_one_task(name_task); }
+	tmp = result_of_search->clone();
+	check= tmp->miss();
+	delete_one_task(name_task);
+	if(check) add(tmp);
+
 	return;
 }
 

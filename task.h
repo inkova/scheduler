@@ -9,14 +9,9 @@ class Task {
 		std::string data; //!< текст задания
 		int importance; //!< уровень важности задания
 		int time; //!< временную метку крайнего срока исполнения задания (целое число, описывающее число секунд от некоторого фиксированного в рамках приложения момента в прошлом)
-		bool is_task_periodic;
 public:
 		Task(const std::string& name, const std::string& data, int imp, int time)  //!< создание задания
 			: name(name), data(data), importance(imp), time(time) {}
-		
-		virtual bool get_periodic() const {
-			return is_task_periodic;
-		}
 
 		int get_imp() const {        // выдача важности
 			return importance;
@@ -41,6 +36,8 @@ public:
 			}
 			else { return false; }
 		}
+
+		virtual bool miss() = 0;
 
 		bool change_imp(int dimp) {     // изменение важности
 			if (dimp >= 0) {
