@@ -1,4 +1,4 @@
-
+#include <iostream>
 #include <cassert> 
 #include "task_once.h" 
 #include "task.h"
@@ -6,6 +6,7 @@
 #include "scheduler_tree.h"
 
 using std::string;
+using std::cout;
 
 void test_task_once() {
 	Task_once t1("do", "done", 1, 2);  // создала задание
@@ -96,36 +97,37 @@ void test_tree() {
 	for (int i = 0; i < 5; i++) {
 	  sch.add(task[i]);
 	 
-	  printf("\nTree: \n");
+	  cout << "\nTree: \n";
 	  sch.show();
 	//  printf("---\n");
 	//  sch.print();
-	  printf("\n");
+	  cout << "\n";
 	} 
 	Task * result_of_search =nullptr;
 	sch.search("do_period2", result_of_search);
 	if (result_of_search != nullptr) result_of_search->print();
-	else printf("Task with this name not found\n");
+	else cout << "Task with this name not found\n";
 	
 	sch.delete_one_task("do_period1");
-	printf("\nAfter delete:\n");
+	cout << "\nAfter delete:\n";
 	sch.show();
 	
 	sch.search("do_period1", result_of_search);
-	printf("\nAfter search:\n");
+	cout << "\nAfter search:\n";
 	if (result_of_search != nullptr) result_of_search->print();
-	else printf("Task with this name not found\n");
+	else cout << "Task with this name not found\n";
 	
 	sch.perform("do_period2");
-	printf("\nAfter perform:\n");
+	cout << "\nAfter perform:\n";
 	sch.show();
 	
 	sch.perform("do2");
-	printf("\nAfter perform:\n");
+	cout << "\nAfter perform:\n";
 	sch.show();
 
-	printf("\nPrint first:\n");
+	cout << "\nPrint first:\n";
 	sch.print_first();
+	
 
 	sch.delete_all_tree();
 	sch.show();

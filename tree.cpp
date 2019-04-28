@@ -64,7 +64,7 @@ void Scheduler::add (Node*& scheduler_top, Task* task) {
 void Scheduler::show () {
 	Node* scheduler_top = this->scheduler_top;
 	if (scheduler_top == nullptr) {
-		printf("\nThere are no tasks in the scheduler.\n");
+		cout << "\nThere are no tasks in the scheduler.\n";
 		return;
 	}
     else while(1)
@@ -96,7 +96,7 @@ void Scheduler::print (Node* scheduler_top) {
     print(scheduler_top->right);
 }
 
-void Scheduler::search (Node* scheduler_top, string name_task, Task *& result_of_search) {
+void Scheduler::search (Node* scheduler_top, const string& name_task, Task *& result_of_search) {
 	
 	if (scheduler_top == nullptr)
 		return;
@@ -112,7 +112,7 @@ void Scheduler::search (Node* scheduler_top, string name_task, Task *& result_of
 		search(scheduler_top->right, name_task, result_of_search);
 }
 
-void Scheduler::search_to_delete(Node* scheduler_top, string name_task, Node *& result_of_search_to_delete) {
+void Scheduler::search_to_delete(Node* scheduler_top, const string& name_task, Node *& result_of_search_to_delete) {
 
 	if (scheduler_top == nullptr)
 		return;
@@ -151,13 +151,13 @@ void Scheduler:: delete_all_tree (Node*& scheduler_top) {
 			else {
 				delete scheduler_top;
 				scheduler_top = nullptr;
-				printf("\nComplete tree removal is finished.\n");
+				cout << "\nComplete tree removal is finished.\n";
 				return;
 			}
 		}
 }
 
-void Scheduler::delete_one_task(string name_task) {
+void Scheduler::delete_one_task(const string& name_task) {
 	Node * task_to_delete = nullptr;
 	Node* scheduler_top = this->scheduler_top;
 
@@ -264,13 +264,13 @@ void  Scheduler::delete_one_node(Node *& task_to_delete){
 	return;
 }
 
-void Scheduler::perform(string name_task) {
+void Scheduler::perform(const string& name_task) {
 	Task * result_of_search = nullptr, *tmp = nullptr;
 	bool check=false;
 	
 	search(name_task, result_of_search);
 	if (result_of_search != nullptr) {
-		printf("\nCompleted task:\n");
+		cout << "\nCompleted task:\n";
 		result_of_search->print();
 	}
 	else {
@@ -290,7 +290,7 @@ void Scheduler::print_first() {
 	Node* scheduler_top = this->scheduler_top;
 
 	if (scheduler_top == nullptr) {
-		printf("\nThere are no tasks in the scheduler.\n");
+		cout << "\nThere are no tasks in the scheduler.\n";
 		return;
 	}
 	else 
