@@ -282,7 +282,8 @@ void Scheduler::perform(const string& name_task) {
 	check= tmp->miss();
 	delete_one_task(name_task);
 	if(check) add(tmp);
-
+        else  delete tmp;
+	
 	return;
 }
 

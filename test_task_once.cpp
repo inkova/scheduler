@@ -107,6 +107,7 @@ void test_tree() {
 	sch.search("do_period2", result_of_search);
 	if (result_of_search != nullptr) result_of_search->print();
 	else cout << "Task with this name not found\n";
+	assert(result_of_search != nullptr);
 	
 	sch.delete_one_task("do_period1");
 	cout << "\nAfter delete:\n";
@@ -116,14 +117,21 @@ void test_tree() {
 	cout << "\nAfter search:\n";
 	if (result_of_search != nullptr) result_of_search->print();
 	else cout << "Task with this name not found\n";
+	assert(result_of_search == nullptr);
 	
 	sch.perform("do_period2");
 	cout << "\nAfter perform:\n";
 	sch.show();
+	sch.search("do_period2", result_of_search);
+	assert(result_of_search != nullptr);
+	assert(result_of_search->get_time() == 11);
+	assert(result_of_search->get_imp() == 4);
 	
 	sch.perform("do2");
 	cout << "\nAfter perform:\n";
 	sch.show();
+	sch.search("do2", result_of_search);
+	assert(result_of_search == nullptr);
 
 	cout << "\nPrint first:\n";
 	sch.print_first();
