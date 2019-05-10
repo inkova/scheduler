@@ -95,12 +95,10 @@ void test_tree() {
 	Task *task[5] = { tp1, tp2, to1, to2, to3 };
 	
 	for (int i = 0; i < 5; i++) {
-	  sch.add(task[i]);
+	  sch.insert(task[i]);
 	 
 	  cout << "\nTree: \n";
 	  sch.show();
-	//  printf("---\n");
-	//  sch.print();
 	  cout << "\n";
 	} 
 	Task * result_of_search =nullptr;
@@ -137,7 +135,7 @@ void test_tree() {
 	sch.print_first();
 	
 
-	sch.delete_all_tree();
+	sch.clean();
 	sch.show();
 }
 

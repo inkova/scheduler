@@ -2,62 +2,42 @@
 #define SCHEDULER_TREE_H_
 
 #include "task.h"
+#include <map>
+#include <string>
+#include <memory>
+#include <utility>    //для пар
+#include <iostream>
+
+using std::map;
+using std::shared_ptr;
+using std::move;
+using std::pair;       //для карты
 using std::string;
 
 class Scheduler {
 private:
-	class Node {
+	map <int, shared_ptr<Task>> mTask;   //создаём map с ключом string и значением shared_ptr<Task>
 
-	public:
-
-		Task* task;
-		Node* left = nullptr;
-		Node* right = nullptr;
-		bool is_left_thread = false;
-		bool is_right_thread = false;
-
-
-		Node(Task* task, Node* left = nullptr, Node* right = nullptr)
-			: task(task), left(left), right(right) {}
-
-		~Node() {
-			delete task;
-		}
-	};
-
-	Node * scheduler_top = nullptr;
-
-	void add(Node*& scheduler_top, Task* task);
-	void print(Node* scheduler_top);
-	void search(Node* scheduler_top, const string& name_task, Task *& result_of_search);
-	void search_to_delete(Node* scheduler_top, const string& name_task, Node *& result_of_search);
-	void delete_all_tree(Node*& scheduler_top);
-	void delete_one_node(Node *& task_to_delete);
 public:
+	void insert(Task* task)
+	{
+		mTask.insert(make_pair(task->get_time(), shared_ptr<Task>(task)));
+	}
 
-	void add(Task* task) {
-		add(scheduler_top, task);
-	};
 	void show();
+	
+	void search(const string& name_task, Task *& result_of_search);
 
-	void print() {
-		print(scheduler_top);
-	};
-		
-	void search(const string& name_task, Task *& result_of_search) {
-		result_of_search = nullptr;
-		search(scheduler_top, name_task, result_of_search);
+	void clean() {
+		mTask.clear();
 	};
 	
-	void delete_all_tree() {
-		delete_all_tree(scheduler_top);
-	};
 	void delete_one_task(const string& name_task);
 	void perform(const string& name_task);
 	void print_first();
 
 	~Scheduler() {
-		delete_all_tree();
+		clean();
 	}
 };
 #endif
