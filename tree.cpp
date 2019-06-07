@@ -10,20 +10,20 @@ using std::endl;
 using std::cout;
 
 void Scheduler::perform(const string& name_task) {
-	Task * result_of_search = nullptr, *tmp = nullptr;
+	Task  *tmp = nullptr;
 	bool check=false;
-	
-	search(name_task, result_of_search);
-	if (result_of_search != nullptr) {
+	multimap <int, shared_ptr<Task>> ::iterator it = mmTask.end();
+
+	if (search(name_task, it)) {
 		cout << "\nCompleted task:\n";
-		result_of_search->print();
+		it->second->print();
 	}
 	else {
 		cout << "\nTask with name " << name_task << " not found." << endl;
 		return;
 	}
 
-	tmp = result_of_search->clone();
+	tmp = it->second->clone();
 	check= tmp->miss();
 	delete_one_task(name_task);
 	if(check) insert(tmp);
@@ -33,37 +33,41 @@ void Scheduler::perform(const string& name_task) {
 }
 
 void Scheduler::print_first() {
-	map <int, shared_ptr<Task>> ::iterator it = mTask.begin();
-	it->second->print();
-	return;
-}
-
-void Scheduler::show() {
-	map <int, shared_ptr<Task>> ::iterator it = mTask.begin();
-	for (; it != mTask.end(); it++) {  // выводим их
+	multimap <int, shared_ptr<Task>> ::iterator it = mmTask.begin();
+	int time;
+	time = it->first;
+	for (; (it != mmTask.end() && time == it->first); it++)
+	{
 		it->second->print();
 	}
 	return;
 }
 
-void Scheduler::search(const string& name_task, Task *& result_of_search) {
-	result_of_search = nullptr;
-	map <int, shared_ptr<Task>> ::iterator it = mTask.begin();
-	for (; it != mTask.end(); it++) {  
-		if (it->second->get_name()== name_task) {
-			result_of_search = it->second.get();
-			return;
-		}
+void Scheduler::show() {
+	multimap <int, shared_ptr<Task>> ::iterator it = mmTask.begin();
+	for (; it != mmTask.end(); it++) {  // выводим их
+		it->second->print();
 	}
 	return;
 }
 
+bool Scheduler::search(const string& name_task, multimap <int, shared_ptr<Task>> ::iterator & it) {
+	it = mmTask.begin();
+	for (; it != mmTask.end(); it++) {  
+		if (it->second->get_name()== name_task) {
+			return true;
+		}
+	}
+	return false;
+}
+
 void Scheduler::delete_one_task(const string& name_task) {
-	Task * task_to_delete = nullptr;
-	search(name_task, task_to_delete);
-	if (task_to_delete == nullptr) {
+	multimap <int, shared_ptr<Task>> ::iterator it = mmTask.end();
+	
+	if (!(search(name_task,it))) {
 		cout << "\nTask with name " << name_task << " not found." << endl;
 		return;
 	}
-	mTask.erase(task_to_delete->get_time());
+	mmTask.erase(it);
+	return;
 }

@@ -8,7 +8,7 @@
 #include <utility>    //для пар
 #include <iostream>
 
-using std::map;
+using std::multimap;
 using std::shared_ptr;
 using std::move;
 using std::pair;       //для карты
@@ -16,20 +16,20 @@ using std::string;
 
 class Scheduler {
 private:
-	map <int, shared_ptr<Task>> mTask;   //создаём map с ключом string и значением shared_ptr<Task>
+	multimap <int, shared_ptr<Task>> mmTask;   //создаём map с ключом string и значением shared_ptr<Task>
 
 public:
 	void insert(Task* task)
 	{
-		mTask.insert(make_pair(task->get_time(), shared_ptr<Task>(task)));
+		mmTask.insert(make_pair(task->get_time(), shared_ptr<Task>(task)));
 	}
 
 	void show();
 	
-	void search(const string& name_task, Task *& result_of_search);
+	bool search(const string& name_task, multimap <int, shared_ptr<Task>> ::iterator & it);
 
 	void clean() {
-		mTask.clear();
+		mmTask.clear();
 	};
 	
 	void delete_one_task(const string& name_task);

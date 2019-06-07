@@ -86,11 +86,11 @@ void test_task_period() {
 
 void test_tree() {
 	Scheduler  sch = Scheduler();
-	Task_period * tp1 = new Task_period("do_period1", "done_period1", 1, 2, 3);
+	Task_period * tp1 = new Task_period("do_period1", "done_period1", 2, 2, 3);
 	Task_once *to1= new Task_once("do1", "done1", 3, 1);
 	Task_period * tp2 = new Task_period("do_period2", "done_period2", 4, 5, 6);
-	Task_once *to2 = new Task_once("do2", "done2", 4, 4);
-	Task_once *to3 = new Task_once("do3", "done3", 4, 10);
+	Task_once *to2 = new Task_once("do2", "done2", 4, 11);
+	Task_once *to3 = new Task_once("do3", "done3", 5, 1);
 
 	Task *task[5] = { tp1, tp2, to1, to2, to3 };
 	
@@ -101,35 +101,39 @@ void test_tree() {
 	  sch.show();
 	  cout << "\n";
 	} 
-	Task * result_of_search =nullptr;
-	sch.search("do_period2", result_of_search);
-	if (result_of_search != nullptr) result_of_search->print();
+	multimap <int, shared_ptr<Task>> ::iterator it;
+	
+	if (sch.search("do_period2",it)) it->second->print();
 	else cout << "Task with this name not found\n";
-	assert(result_of_search != nullptr);
+	assert(sch.search("do_period2",it));
 	
 	sch.delete_one_task("do_period1");
 	cout << "\nAfter delete:\n";
 	sch.show();
 	
-	sch.search("do_period1", result_of_search);
+	sch.delete_one_task("do_period1");
+	cout << "\nAfter delete:\n";
+	sch.show();
+	
 	cout << "\nAfter search:\n";
-	if (result_of_search != nullptr) result_of_search->print();
+	if (sch.search("do_period1",it)) it->second->print();
 	else cout << "Task with this name not found\n";
-	assert(result_of_search == nullptr);
+	assert(!(sch.search("do_period1",it)));
 	
 	sch.perform("do_period2");
 	cout << "\nAfter perform:\n";
 	sch.show();
-	sch.search("do_period2", result_of_search);
-	assert(result_of_search != nullptr);
-	assert(result_of_search->get_time() == 11);
-	assert(result_of_search->get_imp() == 4);
+	assert(sch.search("do_period2",it));
+	assert(it->second->get_time() == 11);
+	assert(it->second->get_imp() == 4);
 	
 	sch.perform("do2");
 	cout << "\nAfter perform:\n";
 	sch.show();
-	sch.search("do2", result_of_search);
-	assert(result_of_search == nullptr);
+	
+	assert(!(sch.search("do2",it)));
+
+
 
 	cout << "\nPrint first:\n";
 	sch.print_first();
